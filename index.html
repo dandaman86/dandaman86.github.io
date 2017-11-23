@@ -10,67 +10,85 @@
 
 <style type="text/css">
 
-body {
-	cursor:url(img/target.png), auto;
+html{
+	position: relative;
+	height: 100%;
+}
+body{
+	height:100%;
 }
 .face {
-    background: url('img/face.png')no-repeat;
-    background-size: cover;
+    background: url(img/face.png)no-repeat;
+    background-size: 100%;
     background-position: center;
-    width: 400px;
-    height: 410px;
-    margin:0 auto;
+    width: 200px;
+    height: 280px;
+    margin: 0 auto;
     position: relative;
+    z-index: -2;
 }
 
 .mouth{
-	position: absolute;
-	left: 50%;
-	top: 300px;
-	transform: translate(-50%);
+    position: absolute;
+    left: 50%;
+    top: 190px;
+    transform: translate(-40%);
 }
 
 .mouth img{
-	width: 135px;
+	width: 95px;
     margin: 0 auto;
     display: block;
-    transform: translate(-30px);
-    animation: mouthMove 0.16s infinite;
+    transform: translate(0);
+    animation: mouthMove 0.19s infinite;
 }
 
 .target{
 	opacity: 0.4;
 	transition: all 0.2s ease-in;
+	width:100%;
 }
 
 .inmotion .target {
 	opacity: 1;
-	transform: scale(3);
+	transform: scale(2);
 }
 
 .bullet{
-	background-color: #000;
-	width:35px;
-	height:35px;
-	border-radius:50px;
-	position: absolute;
+    background-color: #000;
+    width: 15px;
+    height: 35px;
+    border-radius: 50px;
+    position: absolute;
     opacity: 1;
+    bottom: 0;
+    z-index: -1;
 }
 
 .gun{
-	height:300px;
-	width:40px;
-	background-color: #191919;
 	position: absolute;
 	bottom:0;
-	background: linear-gradient(to right, #000, #000, #777);
 }
-#draggable { width: 150px; height: 150px; padding: 0.5em; }
+
+.gun img{
+	transform: translate(-50%);
+}
+#draggable { width: 80px; height: 80px; padding: 0.5em; }
 
 
 .vanishOut {
     animation: vanishOut 0.6s ease-in;
     background: linear-gradient(red, yellow);
+}
+
+.trigger{
+	position: absolute;
+	bottom: 10px;
+	right:10px;
+	border:red solid 2px;
+	border-radius: 300px;
+	width:80px;
+	height:80px;
 }
 
 @keyframes vanishOut {
@@ -96,7 +114,7 @@ body {
 
 @keyframes mouthMove {
     0% {transform: translate(0, 0);}
-    50% {transform: translate(-15px, -35px);}
+    50% {transform: translate(-5px, -15px);}
     100% {transform: translate(0, 0);}
 }
 </style>
@@ -114,7 +132,12 @@ body {
   <img class="target" src="img/target.png" width="100%"/>
 </div>
 
-<div class="gun"></div><div class="bullet"></div>
+<div class="gun">
+	<img src="img/gun.png" />
+</div>
+<div class="bullet"></div>
+
+<div class="trigger"><span>TRIGGER</span></div>
 <!--<embed src="audio/blah.flac" loop="true" autostart="true" style="visibility:hidden;"/>-->
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -122,7 +145,6 @@ body {
 <script src="js/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript">
   $( function() {
-    alert("added");
     var faceShot = $(".face");
         $("#draggable").draggable({
         revert: function(is_valid_drop){
@@ -175,6 +197,48 @@ $("#draggable").on('click touch', function () {
         	
         });
        });
+
+
+function makeNewPosition(){
+    
+    // Get viewport dimensions (remove the dimension of the div)
+    var h = $(document).height();
+    var w = $(document).width();
+    
+    var nh = Math.floor(Math.random() * 300);
+    var nw = Math.floor(Math.random() * 600);
+    
+    return [nh,nw];    
+    
+}
+
+function animateDiv(){
+    var newq = makeNewPosition();
+    var oldq = $('.face').offset();
+    var speed = calcSpeed([oldq.top, oldq.left], newq);
+    
+    $('.face').animate({ top: newq[0], left: newq[1] }, speed, function(){
+      animateDiv();        
+    });
+    
+};
+
+function calcSpeed(prev, next) {
+    
+    var x = Math.abs(prev[1] - next[1]);
+    var y = Math.abs(prev[0] - next[0]);
+    
+    var greatest = x > y ? x : y;
+    
+    var speedModifier = 0.1;
+
+    var speed = Math.ceil(greatest/speedModifier);
+
+    return speed;
+
+}
+
+    animateDiv();
 
   });
 </script>	
