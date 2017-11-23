@@ -1,12 +1,182 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>daniel</title>
-    
-  </head>
-  <body>
-    <h1>Cuz free site</h1>
-  
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-  </body>
+<style type="text/css">
+
+body {
+	cursor:url(img/target.png), auto;
+}
+.face {
+    background: url('img/face.png')no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 400px;
+    height: 410px;
+    margin:0 auto;
+    position: relative;
+}
+
+.mouth{
+	position: absolute;
+	left: 50%;
+	top: 300px;
+	transform: translate(-50%);
+}
+
+.mouth img{
+	width: 135px;
+    margin: 0 auto;
+    display: block;
+    transform: translate(-30px);
+    animation: mouthMove 0.16s infinite;
+}
+
+.target{
+	opacity: 0.4;
+	transition: all 0.2s ease-in;
+}
+
+.inmotion .target {
+	opacity: 1;
+	transform: scale(3);
+}
+
+.bullet{
+	background-color: #000;
+	width:35px;
+	height:35px;
+	border-radius:50px;
+	position: absolute;
+    opacity: 1;
+}
+
+.gun{
+	height:300px;
+	width:40px;
+	background-color: #191919;
+	position: absolute;
+	bottom:0;
+	background: linear-gradient(to right, #000, #000, #777);
+}
+#draggable { width: 150px; height: 150px; padding: 0.5em; }
+
+
+.vanishOut {
+    animation: vanishOut 0.6s ease-in;
+    background: linear-gradient(red, yellow);
+}
+
+@keyframes vanishOut {
+    0% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1,1);
+        filter: blur(0)
+    }
+
+    50% {
+    	background: linear-gradient(red, red);
+    }
+
+    100% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2,2);
+        filter: blur(200px);
+        
+    }
+}
+
+@keyframes mouthMove {
+    0% {transform: translate(0, 0);}
+    50% {transform: translate(-15px, -35px);}
+    100% {transform: translate(0, 0);}
+}
+</style>
+</head>
+
+<body>
+	<div class="face">
+		<div class="mouth">
+			<img src="img/mouth.png">
+		</div>
+	</div>
+
+
+<div id="draggable" class="ui-widget-content">
+  <img class="target" src="img/target.png" width="100%"/>
+</div>
+
+<div class="gun"></div><div class="bullet"></div>
+<!--<embed src="audio/blah.flac" loop="true" autostart="true" style="visibility:hidden;"/>-->
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+  $( function() {
+    
+    var faceShot = $(".face");
+        $("#draggable").draggable({
+        revert: function(is_valid_drop){
+
+            if(!is_valid_drop){
+
+                $(this).removeClass("remove inmotion");
+               return false;
+            } else {
+				
+                $(this).removeClass("remove inmotion");
+                console.log("revert triggered");
+                return true;
+            }
+        },
+        drag: function(){
+        	    var $this = $(this);
+				var offset = $this.offset();
+				var width = $this.width();
+				var height = $this.height();
+				var centerX = offset.left + width / 2;
+				var centerY = offset.top + height / 2;
+        	console.log(centerY);
+            // as you drag, add your "dragging" class, like so:
+            $(this).addClass("inmotion");
+            $('div.gun, div.bullet').animate({
+            	left:centerX
+            },0);
+        }
+    });
+
+
+$("#draggable").on('click touch', function () {
+    var $this = $(this);
+	var offset = $this.offset();
+	var width = $this.width();
+	var height = $this.height();
+	var centerX = offset.left + width / 2;
+	var centerY = offset.top + height / 2;
+	console.log(centerY);
+	$('div.bullet').stop(true,false).animate({
+		top: centerY,
+        left: centerX,
+        opacity: 1
+    }, function(){
+        	$(this).addClass("vanishOut");
+        	setTimeout( function(){
+				$('div.bullet').css("top", "").removeClass("vanishOut");
+        	},200);
+        	
+        });
+       });
+
+  });
+</script>	
+
+</body>
 </html>
