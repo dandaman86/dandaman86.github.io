@@ -330,7 +330,7 @@ var span = '';
 $('.gun, .bul').fadeOut();
 $(".fap").addClass("in");
 
-for (var i = 0; i < 1500; i++){
+for (var i = 0; i < 800; i++){
 	setTimeout(function() { 
 
 
@@ -348,7 +348,7 @@ setTimeout(function() {
 		$(arr).get().forEach(function(el){
    		 d = d.then(function(){ return $(el).animate({
    		 		top: Math.random() * 200,
-        		left: Math.random() * 800,
+        		left: Math.random() * 900,
    		 }, 130); });
 		});
 }, 5500);
