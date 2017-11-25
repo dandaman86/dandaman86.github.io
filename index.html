@@ -136,13 +136,15 @@ body{
 	width: 450px;
     margin: 0 auto;
     position: relative;
-    bottom:-650px;
+    bottom: -500px;
     transform:scale(0.7);
     left: -20px;
+    opacity: 0;
 }
 
 .fap.in{
 	animation: fap-in  2.5s ease-in forwards;
+	opacity: 1;
 
 }
 
@@ -336,7 +338,7 @@ for (var i = 0; i < 800; i++){
 
 	span += '<span class="particle"></span>';
 	$('.fireworks').html(span);
-}, 1000);
+}, 750);
 		
 }
 
