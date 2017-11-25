@@ -17,17 +17,58 @@ html{
 body{
 	height:100%;
 }
+
+.window{
+	/*background: url(img/zoo.jpg) 100% no-repeat;
+    background-size: cover;*/
+	height:380px;
+	width:100%;
+	border: solid 1px;
+	overflow: hidden;
+	position: relative;
+	/*z-index: -5;*/
+}
 .face {
-    background: url(img/face.png)no-repeat;
+    /*background: url(img/face.png)no-repeat;*/
     background-size: 100%;
     background-position: center;
     width: 200px;
     height: 280px;
-    margin: 0 auto;
-    position: relative;
+    position: absolute;
+    bottom:55px;
+    left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
     z-index: -2;
 }
 
+.face img.cuz{
+    width: 200px;
+    height: 280px;
+}
+
+.rex{
+    position: relative;
+    top: -98px;
+    left: 76px;
+    transform: scale(0.3);
+    z-index: -1;
+}
+
+.dino-part {
+	position: absolute;
+}
+
+.frontleg{
+	 transform: translate(283px, 125px);
+	 animation: legMoveTwo 1.5s ease-in infinite;
+}
+
+.backleg{
+	transform: translate(150px, 260px);
+	animation: legMoveOne 1.5s 0.6s ease-in infinite;
+}
 .mouth{
     position: absolute;
     left: 50%;
@@ -73,7 +114,7 @@ body{
 .gun img{
 	transform: translate(-50%);
 }
-#draggable { width: 80px; height: 80px; padding: 0.5em; }
+#draggable { width: 80px; height: 80px; padding: 0.5em; z-index: 5; position: absolute; }
 
 
 .vanishOut {
@@ -89,6 +130,54 @@ body{
 	border-radius: 300px;
 	width:80px;
 	height:80px;
+}
+
+.fap{
+	width: 450px;
+    margin: 0 auto;
+    position: relative;
+    bottom:-650px;
+    transform:scale(0.7);
+    left: -20px;
+}
+
+.fap.in{
+	animation: fap-in  2.5s ease-in forwards;
+
+}
+
+
+.fap-part{
+	position: absolute;
+}
+.dick{
+	left: 221px;
+	bottom: 0;
+}
+.hand{
+	left:0;
+	bottom: -30px;
+	transform: translateY(65px);
+}
+
+.fap.in .hand{
+	animation: fap 2s 3s ease-in;
+}
+
+
+.fireworks {
+	width: 5px;
+    margin: 0 auto;
+}
+
+span.particle{
+    position: absolute;
+    width: 5px;
+    height: 7px;
+    background: pink;
+    border-radius: 200px;
+    border: solid 1px purple;
+    filter: blur(1px);
 }
 
 @keyframes vanishOut {
@@ -117,19 +206,66 @@ body{
     50% {transform: translate(-5px, -15px);}
     100% {transform: translate(0, 0);}
 }
+
+@keyframes legMoveOne {
+    0% {transform: translate(150px, 260px) rotate(0deg);}
+    40% {transform: translate(150px, 260px) rotate(3deg);}
+    65% {transform: translate(150px, 260px) rotate(-10deg);}
+    100% {transform: translate(150px, 260px) rotate(0deg);}
+}
+
+@keyframes legMoveTwo {
+    0% {transform: translate(283px, 125px) rotate(0deg);}
+    40% {transform: translate(283px, 125px) rotate(3deg);}
+    65% {transform: translate(283px, 125px) rotate(-10deg);}
+    100% {transform: translate(283px, 125px) rotate(0deg);}
+}
+
+@keyframes fap-in {
+     0% {transform: translateY(0) scale(0.7);}
+    100% {transform: translateY(-400px) scale(0.7);}
+
+}
+
+@keyframes fap {
+    0% {transform: translateY(0);}
+    10% {transform: translateY(65px);}
+    30% {transform: translateY(0);}
+    40% {transform: translateY(65px);}
+    50% {transform: translateY(0);}
+    60% {transform: translateY(65px);}
+    70% {transform: translateY(0);}
+    80% {transform: translateY(65px);}
+    90% {transform: translateY(0);}
+    100% {transform: translateY(65px);}
+
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="window">
+<div class="bullets-left"><span class="number">10</span></div>
 	<div class="face">
+		<img class="cuz" src="img/face.png" />
 		<div class="mouth">
 			<img src="img/mouth.png">
 		</div>
+		<div class="rex">
+			<img class="backleg dino-part" src="img/rex-behind-leg.png" />
+			<img class="body dino-part" src="img/rex-body.png" />
+			<img class="frontleg dino-part" src="img/rex-front-leg.png" />
+		</div>
+		
 	</div>
+
 
 
 <div id="draggable" class="ui-widget-content">
   <img class="target" src="img/target.png" width="100%"/>
+</div>
 </div>
 
 <div class="gun">
@@ -137,16 +273,31 @@ body{
 </div>
 <div class="bullet"></div>
 
+<div class="fireworks">
+	<span class="particle"></span>
+</div>
+<div class="fap">
+	<img class="dick fap-part" src="img/dick.png" />
+	<img class="hand fap-part" src="img/hand.png" />
+</div>
+
 <div class="trigger"><span>TRIGGER</span></div>
 <!--<embed src="audio/blah.flac" loop="true" autostart="true" style="visibility:hidden;"/>-->
+<!--<embed src="audio/shot.wav" loop="true" autostart="true" style="visibility:hidden;"/>-->
+<!--<embed src="audio/groan.wav" loop="true" autostart="true" style="visibility:hidden;"/>-->
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="js/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript">
   $( function() {
+  	var bullseye = false;
+	var life = [];
     var faceShot = $(".face");
+    var bulletsLeft = 10;
+
         $("#draggable").draggable({
+        containment: "parent",
         revert: function(is_valid_drop){
 
             if(!is_valid_drop){
@@ -156,7 +307,6 @@ body{
             } else {
 				
                 $(this).removeClass("remove inmotion");
-                console.log("revert triggered");
                 return true;
             }
         },
@@ -167,7 +317,6 @@ body{
 				var height = $this.height();
 				var centerX = offset.left + width / 2;
 				var centerY = offset.top + height / 2;
-        	console.log(centerY);
             // as you drag, add your "dragging" class, like so:
             $(this).addClass("inmotion");
             $('div.gun, div.bullet').animate({
@@ -176,15 +325,76 @@ body{
         }
     });
 
+var finishHim = function(){
+var span = '';
+$('.gun, .bul').fadeOut();
+$(".fap").addClass("in");
 
-$("#draggable").on('click touch', function () {
-    var $this = $(this);
+for (var i = 0; i < 1500; i++){
+	setTimeout(function() { 
+
+
+	span += '<span class="particle"></span>';
+	$('.fireworks').html(span);
+}, 1000);
+		
+}
+
+setTimeout(function() { 
+	var audio = new Audio('audio/groan.wav');
+			audio.play();
+	var arr = $('.particle');
+	var d = $.Deferred().resolve();
+		$(arr).get().forEach(function(el){
+   		 d = d.then(function(){ return $(el).animate({
+   		 		top: Math.random() * 200,
+        		left: Math.random() * 800,
+   		 }, 130); });
+		});
+}, 5500);
+
+
+};
+
+
+
+$(".trigger").on('click touch', function () {
+
+	var audio = new Audio('audio/shot.wav');
+	audio.play();
+	
+    var $this = $('#draggable');
 	var offset = $this.offset();
 	var width = $this.width();
 	var height = $this.height();
 	var centerX = offset.left + width / 2;
 	var centerY = offset.top + height / 2;
-	console.log(centerY);
+	bulletsLeft--;
+
+	$('.bullets-left').html(bulletsLeft);
+
+	if(bulletsLeft == 0){
+		alert("GAME OVER");
+	}
+	var shot = function (){
+		var face = $('.face');
+		var faceOffset = face.offset();
+		var faceWidth = face.width();
+		var faceHeight = face.height();
+		var centerLeft = faceOffset.left + faceWidth / 2;
+		var centerTop = faceOffset.top + faceHeight / 2;
+
+	if( (centerX > faceOffset.left)  && (centerX < faceOffset.left + faceWidth - 15) && (centerY > faceOffset.top) && (centerY < faceOffset.top + faceHeight) ){
+		bullseye = true;
+		life.push(bullseye);
+		life.length > 4 ?  finishHim() : '';
+			var audio = new Audio('audio/groan.wav');
+			audio.play();
+
+		} else {
+			centerY = $('html').offset().top;
+		}
+
 	$('div.bullet').stop(true,false).animate({
 		top: centerY,
         left: centerX,
@@ -196,17 +406,22 @@ $("#draggable").on('click touch', function () {
         	},200);
         	
         });
-       });
+	}();
+
+
+});
+
+
 
 
 function makeNewPosition(){
     
     // Get viewport dimensions (remove the dimension of the div)
-    var h = $(document).height();
-    var w = $(document).width();
+    var h = $('.window').height();
+    var w = $('.window').width();
     
-    var nh = Math.floor(Math.random() * 300);
-    var nw = Math.floor(Math.random() * 600);
+    var nh = Math.floor(Math.random() * h);
+    var nw = Math.floor(Math.random() * w);
     
     return [nh,nw];    
     
@@ -230,7 +445,7 @@ function calcSpeed(prev, next) {
     
     var greatest = x > y ? x : y;
     
-    var speedModifier = 0.1;
+    var speedModifier = 0.09;
 
     var speed = Math.ceil(greatest/speedModifier);
 
